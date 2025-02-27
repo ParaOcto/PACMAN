@@ -16,16 +16,25 @@ font = pygame.font.Font('freesansbold.ttf', 20)
 level = boards
 counter = 0
 flicker = False
-player_x = 450
-player_y = 663
+
 player_images = []
 for i in range(1, 5):
     player_images.append(pygame.transform.scale(pygame.image.load(f'player_images/{i}.png'), (45, 45)))
 
+class Player:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+    def draw_player(self):
+        screen.blit(player_images[counter // 5], (self.x, self.y))
+
+player = Player(450, 663)
+    
+
 def draw_board():
     num1 = ((HEIGHT - 50) // 32)
     num2 = (WIDTH // 30)
-    for i in range(len(level)):
+    for i in range(len(level)): 
         for j in range(len(level[i])):
             if level[i][j] == 1:
                 pygame.draw.circle(screen, 'white', (j * num2 + (0.5 * num2), i * num1 + (0.5 * num1)), 4)
@@ -54,9 +63,6 @@ def draw_board():
                 pygame.draw.line(screen, 'white', (j * num2, i * num1 + (0.5 * num1)),
                                  (j * num2 + num2, i * num1 + (0.5 * num1)), 3)
 
-def draw_player():
-    screen.blit(player_images[counter // 5], (player_x, player_y))
-
 run = True
 while run:
     timer.tick(fps)
@@ -69,7 +75,7 @@ while run:
         flicker = True
     screen.fill('black')    
     draw_board()
-    draw_player()
+    player.draw_player()
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
