@@ -22,6 +22,25 @@ player_images = []
 for i in range(1, 5):
     player_images.append(pygame.transform.scale(pygame.image.load(f'player_images/{i}.png'), (45, 45)))
 
+class Orange_ghost:
+    def __init__(self):
+        num1 = ((HEIGHT - 50) // 32)
+        num2 = (WIDTH // 30)
+        self.image = pygame.image.load('ghost_images/orange.png' )
+        self.image = pygame.transform.scale(self.image, (45, 45))
+
+        while True:
+            self.x = random.randint(0, 29)  
+            self.y = random.randint(0, 31)  
+            
+            if level[self.y][self.x] == 1 or level[self.y][self.x] == 2:
+                self.x = self.x * num2 + (0.5 * num2) - 22
+                self.y = self.y * num1 + (0.5 * num1) - 22
+                break
+
+    def draw_ghost(self):
+        screen.blit(self.image, (self.x, self.y))
+
 class Player:
     def __init__(self):
         num1 = ((HEIGHT - 50) // 32)
@@ -40,6 +59,7 @@ class Player:
         screen.blit(player_images[counter // 5], (self.x, self.y))
 
 player = Player()
+orange = Orange_ghost()
 
     
 
@@ -88,6 +108,7 @@ while run:
     screen.fill('black')    
     draw_board()
     player.draw_player()
+    orange.draw_ghost()
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
