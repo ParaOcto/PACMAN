@@ -1,6 +1,7 @@
 import pygame
 from board import boards
 import math
+import random
 
 pygame.init()
 
@@ -22,13 +23,24 @@ for i in range(1, 5):
     player_images.append(pygame.transform.scale(pygame.image.load(f'player_images/{i}.png'), (45, 45)))
 
 class Player:
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
+    def __init__(self):
+        num1 = ((HEIGHT - 50) // 32)
+        num2 = (WIDTH // 30)
+        
+        while True:
+            self.x = random.randint(0, 29)  
+            self.y = random.randint(0, 31)  
+            
+            if level[self.y][self.x] == 1 or level[self.y][self.x] == 2:
+                self.x = self.x * num2 + (0.5 * num2) - 22
+                self.y = self.y * num1 + (0.5 * num1) - 22
+                break
+
     def draw_player(self):
         screen.blit(player_images[counter // 5], (self.x, self.y))
 
-player = Player(430, 663)
+player = Player()
+
     
 
 def draw_board():
